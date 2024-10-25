@@ -1,0 +1,65 @@
+#bm3-virtualKeyboard {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 600px;
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    z-index: 99999;
+}
+.bm3-keyboard-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.bm3-key {
+    background-color: #555;
+    color: white;
+    padding: 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: 1.2em;
+}
+.bm3-key:active,
+.bm3-key:active.bm3-key:focus,
+.bm3-key:focus-visible {
+    background-color: #888;
+}
+.bm3-key:focus {
+    background-color: #555;
+    outline: none;
+}
+.bm3-activeKey,
+.bm3-key.bm3-activeKey,
+.bm3-key.bm3-activeKey:focus, 
+.bm3-key.bm3-activeKey:active     {
+    background-color: #800;
+}
+#bm3-keyboardHeader {
+    padding: 10px;
+    cursor: move;
+    background-color: #111;
+    color: white;
+    text-align: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #444;
+    position: relative;
+}
+#bm3-closeKeyboard {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}

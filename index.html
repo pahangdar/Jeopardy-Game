@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardy Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/virtualKeyboard.css">
+</head>
+<body>
+    <div class="header py-3">
+        <img src="./assets/logo.png" alt="Logo" width="200"> <!-- Logo at the top -->
+        <div class="header py-1 px-5 d-flex align-items-center">
+            <h1 class="me-auto">Jeopardy Game</h1>
+            <button id="menueButton" class="btn btn-outline-secondary ms-auto d-none" onclick="showMenue()">Pause Game</button>
+            <p id="gameId" class=""></p>
+        </div>
+    </div>
+    
+    <!-- Lead Form Page -->
+    <div id="leadFormPage" class="h-100">
+        <div class="middle mt-5">
+            <h3>Enter Player Information</h3>
+            <form id="leadForm" class="form-group">
+                <div id="playerFields">
+                    <!-- Player 1 -->
+                    <div class="player-field">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-grow-1">
+                                <label for="name1">Player 1 Name</label>
+                                <input type="text" id="name1" class="form-control" required>
+                            </div>
+                            <div class="ms-2" style="width: 40px;"></div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-grow-1">
+                                <label for="email1">Email</label>
+                                <input type="email" id="email1" class="form-control" required>
+                            </div>
+                            <div class="ms-2" style="width: 40px;"></div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-grow-1">
+                                <label for="phone1">Phone</label>
+                                <input type="tel" id="phone1" class="form-control" required>
+                            </div>
+                            <div class="ms-2" style="width: 40px;"></div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <button id="addPlayerBtn" type="button" class="btn btn-secondary mt-3">Add Player</button>
+                <button id="startGameBtn" type="submit" class="btn btn-primary mt-3">Start Game</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Menu Page -->
+    <div id="menuPage" class="h-100 d-none">
+        <div class="middle">
+            <button id="startButton" class="btn btn-primary mt-3" onclick="location.reload()">Re-Start</button>
+            <button id="cancelButton" class="btn btn-info mt-5 d-none" onclick="returnToGame()">Return to the Game</button>
+        </div>
+    </div>
+
+    <!-- Game Page (Initially Hidden) -->
+    <div id="gamePage" class="d-none">
+        <!-- Scoreboard -->
+        <div id="scoreboard"></div>
+        <div class="middle container">
+            <table class="question-table">
+                <thead>
+                    <tr id="categoryRow"></tr>
+                </thead>
+                <tbody id="questionGrid"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Ads section -->
+    <div id="ads" class="footer">
+        <img id="ad-image" src="./assets/ad1.png" alt="Ad" width="100%"/>
+    </div>
+
+    <!--     
+    <div class="footer">
+        <img src="./assets/ad1.png" alt="Banner" width="100%">
+    </div>
+    -->
+
+    <!-- Bootstrap Modal for Questions -->
+    <div class="modal fade" id="questionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalLabel">Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="questionBody">
+                    <!-- Question text and options will go here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="submitAnswerButton">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- bootstrap Toast  -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+        <div id="answerToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="toastTitle"></strong>
+            <!--<small id="toastTime">Just now</small> -->
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            <!-- Toast message will be updated dynamically -->
+        </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal for Game Over Results -->
+    <div class="modal fade" id="gameOverModal" tabindex="-1" aria-labelledby="gameOverModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gameOverModalLabel">Game Over!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="scoresList">
+                    <!-- Player scores will be populated here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="sendScoresButton">Send Scores</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Keyboard -->
+    <div id="bm3-virtualKeyboard">
+        <div id="bm3-keyboardHeader">
+            CLICK HERE TO MOVE 
+            <button id="bm3-closeKeyboard">Close</button>
+        </div>
+        <div class="bm3-keyboard-row">
+            <button class="bm3-key">`</button>
+            <button class="bm3-key">1</button>
+            <button class="bm3-key">2</button>
+            <button class="bm3-key">3</button>
+            <button class="bm3-key">4</button>
+            <button class="bm3-key">5</button>
+            <button class="bm3-key">6</button>
+            <button class="bm3-key">7</button>
+            <button class="bm3-key">8</button>
+            <button class="bm3-key">9</button>
+            <button class="bm3-key">0</button>
+            <button class="bm3-key">-</button>
+            <button class="bm3-key">=</button>
+            <button class="bm3-key">Backspace</button>
+        </div>
+        <div class="bm3-keyboard-row">
+            <button class="bm3-key">Tab</button>
+            <button class="bm3-key">q</button>
+            <button class="bm3-key">w</button>
+            <button class="bm3-key">e</button>
+            <button class="bm3-key">r</button>
+            <button class="bm3-key">t</button>
+            <button class="bm3-key">y</button>
+            <button class="bm3-key">u</button>
+            <button class="bm3-key">i</button>
+            <button class="bm3-key">o</button>
+            <button class="bm3-key">p</button>
+            <button class="bm3-key">[</button>
+            <button class="bm3-key">]</button>
+            <button class="bm3-key">\</button>
+        </div>
+        <div class="bm3-keyboard-row">
+            <button class="bm3-key" id="bm3-capsLock" data-key="bm3-caps">Caps</button>
+            <button class="bm3-key">a</button>
+            <button class="bm3-key">s</button>
+            <button class="bm3-key">d</button>
+            <button class="bm3-key">f</button>
+            <button class="bm3-key">g</button>
+            <button class="bm3-key">h</button>
+            <button class="bm3-key">j</button>
+            <button class="bm3-key">k</button>
+            <button class="bm3-key">l</button>
+            <button class="bm3-key">;</button>
+            <button class="bm3-key">'</button>
+            <button class="bm3-key">Enter</button>
+        </div>
+        <div class="bm3-keyboard-row">
+            <button class="bm3-key" id="bm3-leftShiftKey">Shift</button>
+            <button class="bm3-key">z</button>
+            <button class="bm3-key">x</button>
+            <button class="bm3-key">c</button>
+            <button class="bm3-key">v</button>
+            <button class="bm3-key">b</button>
+            <button class="bm3-key">n</button>
+            <button class="bm3-key">m</button>
+            <button class="bm3-key">,</button>
+            <button class="bm3-key">.</button>
+            <button class="bm3-key">/</button>
+            <button class="bm3-key" id="bm3-rightShiftKey">Shift</button>
+        </div>
+        <div class="bm3-keyboard-row">
+            <button class="bm3-key bm3-special-key">.com</button>
+            <button class="bm3-key bm3-special-key">@</button>
+            <button class="bm3-key bm3-special-key">@gmail.com</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script  type="module" src="./js/leadForm.js"></script>
+    <script type="module" src="./js/game.js"></script>
+    <script type="module" src="./js/virtualKeyboard.js"></script>
+</body>
+</html>

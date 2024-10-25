@@ -1,0 +1,154 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.header, .footer {
+    text-align: center;
+    color: white;
+    background-color: black;
+    flex: 0 0 auto;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Style for landscape orientation */
+@media only screen and (orientation: landscape) {
+    .footer, #ads {
+        display: none;
+    }
+}
+
+#gamePage {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #222;
+    background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+}
+
+.middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.middle.container {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content:start;
+    align-items: center;
+}
+
+#menuPage {
+    padding-top: 10%;
+    /* background-color: blueviolet; */
+}
+
+#scoreboard {
+    background-color: #222;
+    background: #010;
+    background-image: radial-gradient(#040 25%, transparent 0);
+    background-size: 15px 15px;
+    justify-content: center;
+    display: flex;        /* Use flexbox to align items */
+    flex-direction: row;  /* Ensure items are aligned horizontally (default behavior of flexbox) */
+    gap: 0px;            /* Add spacing between divs if needed */
+}
+
+.question-table {
+    width: 100%;
+    height: calc(100% - 200px);
+    background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+    border-collapse: separate;
+    border-spacing: 20px;
+}
+
+#categoryRow {
+    color: yellow !important;
+    text-align: center;
+    border: solid 2px white;
+    padding: 10px;
+    font-size: 1.7em;
+}
+
+#questionGrid {
+
+}
+
+.question-cell {
+    color: #cee;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 3em;
+    border-radius: 30px;
+    border: solid 3px #cee;
+}
+
+.question-cell:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.question-cell.active {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.question-disabled {
+    pointer-events: none;
+    color: #888 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.team-score {
+    background-color: grey;
+    background: #010;
+    background-image: radial-gradient(#020 25%, transparent 0);
+    background-size: 15px 15px;
+    color: #080;
+    justify-content: center;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.team-selected {
+    background-color: chartreuse;
+    background: #0a0;
+    background-image: radial-gradient(#0b0 25%, transparent 0);
+    background-size: 15px 15px;
+    color: #cfc;
+    border-radius: 10px;
+    border: dotted 4px chartreuse;
+}
+
+#ads {
+}
+
+#ad-image {
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.player-score {
+    padding: 5px 0;
+}
+
+.player-score.text-success {
+    font-weight: bold;
+    color: green; /* Change the color as needed */
+}
+
+#gameId {
+    position: absolute;
+    top: 10px;
+    left: 85%;
+    color: gray;
+}
