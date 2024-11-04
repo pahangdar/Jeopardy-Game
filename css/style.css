@@ -149,6 +149,6 @@ body, html {
 #gameId {
     position: absolute;
     top: 10px;
-    left: 85%;
+    right: 60px;
     color: gray;
 }

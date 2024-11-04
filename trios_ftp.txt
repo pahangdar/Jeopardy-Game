@@ -1,0 +1,7 @@
+Host=triosdevelopers.com,   
+Username= S.Pahangdar
+Password= L52i4mS3
+
+SSH S.Pahangdar@triosdevelopers.com
+
+Site URL: https://triosdevelopers.com/~S.Pahangdar 

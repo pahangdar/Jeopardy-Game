@@ -1,0 +1,6 @@
+https://primacan.ca/Jeopardy/
+
+MySQL server hostname is: srv1540.hstgr.io:3306
+database: u522057862_jeopardy
+user: u522057862_jeopardy
+pass: Azadiazadi6851#

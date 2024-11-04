@@ -1,0 +1,5 @@
+https://triosdevelopers.com/phpmyadmin/
+
+Username=S.Pahangdar
+
+Password=L52i4mS3
