@@ -1,3 +1,4 @@
+import { BASE_URL } from './config.js';
 // Import the jeopardyData
 import { jeopardyData } from './jeopardyData.js';
 
@@ -207,6 +208,28 @@ function checkGameOver() {
         .every(cell => cell.classList.contains('question-disabled'));
 
     if (allQuestionsAnswered) {
+        // update players' score
+        const payload = {
+            gameId: gameId,
+            players: players
+        };
+        fetch(`${BASE_URL}saveUser.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(`Game ID ${data.gameId} updated successfully.`);
+            } else {
+                console.error('Error updating game:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
         // Create a string for the score list
         let scoresHtml = `<h5 class="text-center">Score${teamNumber === 1 ? '' : 's'}</h5>`;
         let sortedPlayers = players;
@@ -237,7 +260,7 @@ document.getElementById('sendScoresButton').onclick = function() {
         players: players
     };
     // Send final scores to the backend to email to players
-    fetch('https://triosdevelopers.com/~S.Pahangdar/Jeopardy/backend/sendScores.php', {
+    fetch(`${BASE_URL}sendScores.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

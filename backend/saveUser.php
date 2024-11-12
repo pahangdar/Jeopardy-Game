@@ -21,6 +21,7 @@ if ($conn->connect_error) {
 
 // Get the JSON data from the request
 $data = json_decode(file_get_contents('php://input'), true);
+$gameId = isset($data['gameId']) ? $data['gameId'] : null;
 $players = isset($data['players']) ? $data['players'] : null;
 if ($players === null) {
     http_response_code(400); // Bad Request
@@ -28,27 +29,34 @@ if ($players === null) {
     exit;
 }
 
-//echo json_encode($players);
-
 // Start transaction
 $conn->begin_transaction();
 
 try {
-    // Insert a new game into the games table
-    $stmt = $conn->prepare("INSERT INTO jeopardy_games (game_date) VALUES (NOW())");
-    $stmt->execute();
-    $game_id = $conn->insert_id; // Get the newly created game's ID
-
-    // Insert each player into the players table, linked to the new game
-    $stmt = $conn->prepare("INSERT INTO jeopardy_players (game_id, name, email, phone, score) VALUES (?, ?, ?, ?, ?)");
-    foreach ($players as $player) {
-        $stmt->bind_param('isssi', $game_id, $player['name'], $player['email'], $player['phone'], $player['score']);
+    if ($gameId) {
+        // Update existing players' scores
+        $stmt = $conn->prepare("UPDATE jeopardy_players SET score = ? WHERE game_id = ? AND name = ?");
+        foreach ($players as $player) {
+            $stmt->bind_param('iis', $player['score'], $gameId, $player['name']);
+            $stmt->execute();
+        }
+        echo json_encode(['success' => true, 'message' => 'Scores updated', 'gameId' => $gameId]);
+    } else {
+        // Insert a new game into the games table
+        $stmt = $conn->prepare("INSERT INTO jeopardy_games (game_date) VALUES (NOW())");
         $stmt->execute();
-    }
+        $game_id = $conn->insert_id; // Get the newly created game's ID
 
+        // Insert each player into the players table, linked to the new game
+        $stmt = $conn->prepare("INSERT INTO jeopardy_players (game_id, name, email, phone, score) VALUES (?, ?, ?, ?, ?)");
+        foreach ($players as $player) {
+            $stmt->bind_param('isssi', $game_id, $player['name'], $player['email'], $player['phone'], $player['score']);
+            $stmt->execute();
+        }
+        echo json_encode(['success' => true, 'gameId' => $game_id]);
+    }
     // Commit transaction
     $conn->commit();
-    echo json_encode(['success' => true, 'gameId' => $game_id]);
 
 } catch (Exception $e) {
     // Rollback transaction in case of error

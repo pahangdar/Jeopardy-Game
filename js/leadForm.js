@@ -1,3 +1,4 @@
+import { BASE_URL } from './config.js';
 import { startGame } from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Send player data to the backend
-        fetch('https://triosdevelopers.com/~S.Pahangdar/Jeopardy/backend/saveUser.php', {
+        fetch(`${BASE_URL}saveUser.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ players })

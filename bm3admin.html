@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardy Admin - Game Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .game-header { font-weight: bold; font-size: 1.2em; margin-top: 20px; }
+        .player-row { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <h1>Jeopardy Admin - Game Data</h1>
+        <div id="gamesList"></div>
+    </div>
+    <button id="downloadCSVButton" class="btn btn-primary m-3">Export as CSV</button>
+    <!-- <a class="btn btn-primary mb-3" href="https://triosdevelopers.com/~S.Pahangdar/Jeopardy/backend/downloadGamesCSV.php" download>Export as CSV</a> -->
+    
+    <script  type="module" src="./js/loadGameData.js"></script>
+
+</body>
+</html>
